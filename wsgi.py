@@ -13,7 +13,7 @@ from App.controllers import ( create_user, get_all_users_json, get_all_users, in
 
 app = create_app()
 migrate = get_migrate(app)
-user_cli = AppGroup('user', help='User object commands') 
+
 
 # This command creates and initializes the database
 @app.cli.command("init", help="Creates and initializes the database")
@@ -24,22 +24,32 @@ def init():
 '''
 User Commands
 '''
+user_cli = AppGroup('user', help='User object commands') 
+
 @app.cli.command("create_course", help="Creates a course")
 def course_create(name,description):
     new_course=create_course(name,description)
     print(f'Course Created ')
+app.cli.add_command(user_cli)
 
 @app.cli.command("create_staff", help = "Creates a lecturer,TA or tutor")
 def staff_create(name,email,role):
     new_staff=create_staff(name,email,role)
     print(f'Staff Member Created')
+app.cli.add_command(user_cli)
 
 @app.cli.command("add_staff", help="Allocates staff members to a course")
 def allocate_staff(cid,sid):
     staffall=allocate_staff(cid,sid)
     print(staffall)
+app.cli.add_command(user_cli)
 
-@app.cli.command("view_staff")
+@app.cli.command("view_staff", help="views all staff members in a course")
+def view_staff(cid):
+    roster=view_staff(cid)
+    print(roster)
+
+app.cli.add_command(user_cli)
 # Commands can be organized using groups
 
 # create a group, it would be the first argument of the comand

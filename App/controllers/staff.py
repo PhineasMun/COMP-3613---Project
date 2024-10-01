@@ -9,5 +9,6 @@ def create_staff(name, email,role):
 
 
 def view_staff(id):
-    staff = Allocations.query.filter_by(course_id = id).all
-    return staff
+    staffs = Allocations.query.filter_by(course_id = id).all
+    roster = Staff.query.filter_by(staffs.id).all
+    return roster
